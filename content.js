@@ -2,11 +2,14 @@
 (function() {
     'use strict';
     
+    console.log('Teedl content script loaded on:', window.location.href);
+    
     let panel = null;
     let isPanelOpen = false;
     
     // Listen for messages from popup
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        console.log('Teedl received message:', request);
         if (request.action === 'togglePanel') {
             togglePanel();
             sendResponse({success: true});

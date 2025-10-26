@@ -34,8 +34,7 @@
     {
       "resources": [
         "panel.html",
-        "src/panel.js",
-        "src/panel.html",
+        "panel.js",
         "assets/*"
       ],
       "matches": [
