@@ -1,31 +1,8 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/panel.html",
-      "dest": "/src/panel.html"
-    },
-    {
-      "src": "/teedl-inject.js",
-      "dest": "/teedl-inject.js"
-    },
-    {
-      "src": "/src/(.*)",
-      "dest": "/src/$1"
-    },
-    {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
+      "source": "/panel.html",
+      "destination": "/src/panel.html"
     }
   ],
   "headers": [
