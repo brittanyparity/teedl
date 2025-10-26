@@ -327,7 +327,7 @@
         const tooltipRect = tooltip.getBoundingClientRect();
         
         let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-        let top = rect.bottom + 8;
+        let top = rect.bottom + 38; // 30px margin + 8px original spacing
         
         // Adjust if tooltip goes off screen
         if (left < 8) left = 8;
