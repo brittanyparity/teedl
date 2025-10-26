@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Teedl",
+  "name": "Teedl - Google Workspace Guide",
   "version": "1.0.0",
-  "description": "Interactive guides and tutorials for Google Workspace applications",
+  "description": "Interactive guides and tutorials for Google Workspace applications. Get step-by-step tutorials, icon references, and keyword guides for Google Docs, Slides, and Sheets.",
   
   "permissions": [
     "activeTab",
@@ -40,8 +40,6 @@
       "resources": [
         "panel.html",
         "panel.js",
-        "settings.html",
-        "settings.js",
         "assets/*"
       ],
       "matches": [
@@ -62,5 +60,9 @@
     "32": "icons/icon32.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+  
+  "author": "Teedl Team",
+  "homepage_url": "https://teedl.app",
+  "offline_enabled": false
 }
