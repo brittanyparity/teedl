@@ -13,12 +13,7 @@
         if (request.action === 'togglePanel') {
             togglePanel();
             sendResponse({success: true});
-        }
-    });
-    
-    // Handle extension icon click directly
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-        if (request.action === 'openPanel') {
+        } else if (request.action === 'openPanel') {
             if (!isPanelOpen) {
                 openPanel();
             }

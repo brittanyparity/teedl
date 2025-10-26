@@ -6,9 +6,9 @@ chrome.action.onClicked.addListener(function(tab) {
         tab.url.includes('sheets.google.com') || 
         tab.url.includes('drive.google.com')) {
         
-        // Send message to content script to open panel
+        // Send message to content script to toggle panel
         chrome.tabs.sendMessage(tab.id, {
-            action: 'openPanel'
+            action: 'togglePanel'
         }, function(response) {
             if (chrome.runtime.lastError) {
                 console.log('Teedl: Could not communicate with content script');
