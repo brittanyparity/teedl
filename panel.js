@@ -735,25 +735,18 @@ parent.open(HOST.replace(/\/$/,'') + '/feedback','_blank');
 
 	async function loadSteps(){
 console.log('Teedl: Loading steps for site:', site);
-try{
-const remote = await fetch(HOST.replace(/\/$/, '') + '/src/steps/' + site + '.json?_=' + Date.now());
-console.log('Teedl: Remote fetch result:', remote.ok, remote.status);
-if (remote.ok){ 
-const data = await remote.json();
-console.log('Teedl: Remote data:', data);
-return normalize(data); 
-}
-}catch(e){ console.log('Teedl: Remote fetch error:', e); }
-		try{
-			const packaged = await fetch(chrome.runtime.getURL('steps/' + site + '.json'));
-console.log('Teedl: Extension fetch result:', packaged.ok, packaged.status);
-if (packaged.ok){ 
-const data = await packaged.json();
-console.log('Teedl: Extension data:', data);
-return normalize(data); 
-}
-}catch(e){ console.log('Teedl: Extension fetch error:', e); }
-console.log('Teedl: No steps found, returning empty');
+		
+		// Use local guideData instead of fetching from remote
+		const guide = guideData.find(g => g.id === site + '-guide');
+		if (guide) {
+			console.log('Teedl: Found local guide:', guide.title);
+			return {
+				title: guide.title,
+				steps: guide.steps
+			};
+		}
+		
+		console.log('Teedl: No local guide found for site:', site);
 		return { title: '', steps: [] };
 	}
 
