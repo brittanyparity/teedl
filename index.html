@@ -161,24 +161,30 @@
         <h1>Teedl</h1>
         <p class="subtitle">Interactive guides for Google Workspace</p>
         
-        <button class="activate-btn" id="activateBtn" onclick="activateTeedl()">
-            Activate Teedl on This Page
+        <button class="activate-btn" id="activateBtn" onclick="createBookmarklet()">
+            Create Teedl Bookmarklet
         </button>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 8px;">
+            <strong>📌 Bookmarklet Method:</strong> Drag the button below to your bookmarks bar, then click it while on Google Workspace!
+            <br><br>
+            <a href="javascript:(function(){if(document.getElementById('teedl-panel'))return;var script=document.createElement('script');script.src='https://your-vercel-url.vercel.app/teedl-inject.js';document.head.appendChild(script);})();" style="display: inline-block; padding: 10px 20px; background: #4285f4; color: white; text-decoration: none; border-radius: 6px; margin-top: 10px;">📌 Teedl</a>
+        </div>
         
         <div id="status" class="status" style="display: none;"></div>
         
         <div class="instructions">
             <h2>How to Use Teedl:</h2>
             <ol>
-                <li><strong>Open Google Workspace:</strong> Go to docs.google.com, slides.google.com, or sheets.google.com</li>
-                <li><strong>Open this page in the SAME tab:</strong> Visit your Vercel URL in the same browser tab</li>
-                <li><strong>Click "Activate Teedl":</strong> The button above will inject Teedl into Google Workspace</li>
-                <li><strong>Teedl appears:</strong> Panel will show up on the right side of your Google Workspace page</li>
-                <li><strong>Follow guides:</strong> Use the interactive tutorials to learn Google Workspace</li>
+                <li><strong>Create Bookmarklet:</strong> Click "Create Teedl Bookmarklet" above to copy the code</li>
+                <li><strong>Add to Bookmarks:</strong> Create a new bookmark and paste the code as the URL</li>
+                <li><strong>Go to Google Workspace:</strong> Open docs.google.com, slides.google.com, or sheets.google.com</li>
+                <li><strong>Click Bookmarklet:</strong> Click your Teedl bookmark while on Google Workspace</li>
+                <li><strong>Teedl appears:</strong> Panel will show up on the right side!</li>
             </ol>
             
             <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin-top: 20px;">
-                <strong>💡 Pro Tip:</strong> Bookmark this page! You can activate Teedl anytime by visiting this URL while on Google Workspace.
+                <strong>💡 Pro Tip:</strong> The bookmarklet works on any Google Workspace page - Docs, Slides, Sheets, etc.!
             </div>
         </div>
         
@@ -209,49 +215,21 @@
             status.style.display = 'block';
         }
         
-        function activateTeedl() {
-            const btn = document.getElementById('activateBtn');
-            btn.disabled = true;
-            btn.textContent = 'Activating...';
+        function createBookmarklet() {
+            const currentUrl = window.location.origin;
+            const bookmarkletCode = `javascript:(function(){if(document.getElementById('teedl-panel'))return;var script=document.createElement('script');script.src='${currentUrl}/teedl-inject.js';document.head.appendChild(script);})();`;
             
-            // Check if we're on a Google Workspace page
-            if (!window.location.host.includes('google.com')) {
-                showStatus('❌ Please go to Google Docs, Slides, or Sheets first!', 'error');
-                btn.disabled = false;
-                btn.textContent = 'Activate Teedl on This Page';
-                return;
-            }
-            
-            // Check if Teedl is already active
-            if (document.getElementById('teedl-panel')) {
-                showStatus('✅ Teedl is already active on this page!', 'success');
-                btn.disabled = false;
-                btn.textContent = 'Activate Teedl on This Page';
-                return;
-            }
-            
-            // Load the Teedl script
-            const script = document.createElement('script');
-            script.src = '/teedl-inject.js';
-            script.onload = () => {
-                showStatus('✅ Teedl activated! Look for the panel on the right side.', 'success');
-                btn.disabled = false;
-                btn.textContent = 'Activate Teedl on This Page';
-            };
-            script.onerror = () => {
-                showStatus('❌ Failed to load Teedl. Please try again.', 'error');
-                btn.disabled = false;
-                btn.textContent = 'Activate Teedl on This Page';
-            };
-            document.head.appendChild(script);
+            // Copy to clipboard
+            navigator.clipboard.writeText(bookmarkletCode).then(() => {
+                showStatus('✅ Bookmarklet code copied to clipboard! Paste it as a bookmark URL.', 'success');
+            }).catch(() => {
+                showStatus('📋 Copy this code and paste it as a bookmark URL:', 'info');
+                prompt('Bookmarklet Code:', bookmarkletCode);
+            });
         }
         
-        // Auto-detect if we're on Google Workspace
-        if (window.location.host.includes('google.com')) {
-            showStatus('🎯 You\'re on Google Workspace! Click "Activate Teedl" to get started.', 'info');
-        } else {
-            showStatus('📝 Step 1: Go to Google Docs, Slides, or Sheets first, then come back here!', 'info');
-        }
+        // Show instructions
+        showStatus('📌 Create a bookmarklet to use Teedl on Google Workspace!', 'info');
     </script>
 </body>
 </html>
