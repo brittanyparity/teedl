@@ -301,11 +301,26 @@
         
         const tooltip = createTooltip();
         
-        tooltip.innerHTML = `
-            <div style="font-weight: 600; margin-bottom: 2px;">${iconInfo.name}</div>
-            <div style="opacity: 0.9;">${iconInfo.description}</div>
-            <div style="font-size: 10px; opacity: 0.7; margin-top: 4px;">${iconInfo.category}</div>
-        `;
+        // Clear existing content
+        tooltip.textContent = '';
+        
+        // Create tooltip content elements
+        const nameDiv = document.createElement('div');
+        nameDiv.style.cssText = 'font-weight: 600; margin-bottom: 2px;';
+        nameDiv.textContent = iconInfo.name;
+        
+        const descDiv = document.createElement('div');
+        descDiv.style.cssText = 'opacity: 0.9;';
+        descDiv.textContent = iconInfo.description;
+        
+        const categoryDiv = document.createElement('div');
+        categoryDiv.style.cssText = 'font-size: 10px; opacity: 0.7; margin-top: 4px;';
+        categoryDiv.textContent = iconInfo.category;
+        
+        // Append elements to tooltip
+        tooltip.appendChild(nameDiv);
+        tooltip.appendChild(descDiv);
+        tooltip.appendChild(categoryDiv);
         
         // Position tooltip
         const rect = element.getBoundingClientRect();
