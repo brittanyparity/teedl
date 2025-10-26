@@ -170,11 +170,16 @@
         <div class="instructions">
             <h2>How to Use Teedl:</h2>
             <ol>
-                <li><strong>Go to Google Workspace:</strong> Open Google Docs, Slides, or Sheets</li>
-                <li><strong>Activate Teedl:</strong> Click the button above (or bookmark this page)</li>
-                <li><strong>Follow Guides:</strong> Teedl panel will appear on the right side</li>
-                <li><strong>Learn & Create:</strong> Use interactive guides to master Google Workspace</li>
+                <li><strong>Open Google Workspace:</strong> Go to docs.google.com, slides.google.com, or sheets.google.com</li>
+                <li><strong>Open this page in the SAME tab:</strong> Visit your Vercel URL in the same browser tab</li>
+                <li><strong>Click "Activate Teedl":</strong> The button above will inject Teedl into Google Workspace</li>
+                <li><strong>Teedl appears:</strong> Panel will show up on the right side of your Google Workspace page</li>
+                <li><strong>Follow guides:</strong> Use the interactive tutorials to learn Google Workspace</li>
             </ol>
+            
+            <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <strong>💡 Pro Tip:</strong> Bookmark this page! You can activate Teedl anytime by visiting this URL while on Google Workspace.
+            </div>
         </div>
         
         <div class="features">
@@ -244,6 +249,8 @@
         // Auto-detect if we're on Google Workspace
         if (window.location.host.includes('google.com')) {
             showStatus('🎯 You\'re on Google Workspace! Click "Activate Teedl" to get started.', 'info');
+        } else {
+            showStatus('📝 Step 1: Go to Google Docs, Slides, or Sheets first, then come back here!', 'info');
         }
     </script>
 </body>
