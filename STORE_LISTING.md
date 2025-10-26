@@ -3,7 +3,7 @@
 ## Store Listing Details
 
 ### **Extension Name**
-Teedl - Google Workspace Guide
+Teedl
 
 ### **Short Description** (132 characters max)
 Interactive guides and tutorials for Google Workspace applications. Get step-by-step help for Docs, Slides, and Sheets.

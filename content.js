@@ -7,6 +7,17 @@
     let panel = null;
     let isPanelOpen = false;
     
+    // Load tooltip system
+    const tooltipScript = document.createElement('script');
+    tooltipScript.src = chrome.runtime.getURL('tooltips.js');
+    tooltipScript.onload = function() {
+        console.log('Teedl: Tooltip system loaded');
+        if (window.teedlTooltips) {
+            window.teedlTooltips.init();
+        }
+    };
+    document.head.appendChild(tooltipScript);
+    
     // Listen for messages from extension icon click
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         console.log('Teedl received message:', request);
@@ -16,6 +27,11 @@
         } else if (request.action === 'openPanel') {
             if (!isPanelOpen) {
                 openPanel();
+            }
+            sendResponse({success: true});
+        } else if (request.action === 'toggleTooltips') {
+            if (window.teedlTooltips) {
+                window.teedlTooltips.toggle();
             }
             sendResponse({success: true});
         }

@@ -1099,6 +1099,40 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Tooltip toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const tooltipToggleBtn = document.getElementById('tooltipToggleBtn');
+    if (tooltipToggleBtn) {
+        // Load tooltip state
+        chrome.storage.local.get(['teedl_tooltips_enabled'], function(result) {
+            const isEnabled = result.teedl_tooltips_enabled !== false; // Default to true
+            if (isEnabled) {
+                tooltipToggleBtn.classList.add('active');
+            }
+        });
+        
+        tooltipToggleBtn.addEventListener('click', function() {
+            const isActive = this.classList.contains('active');
+            
+            if (isActive) {
+                this.classList.remove('active');
+                chrome.storage.local.set({ teedl_tooltips_enabled: false });
+                // Send message to content script to disable tooltips
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleTooltips', enabled: false });
+                });
+            } else {
+                this.classList.add('active');
+                chrome.storage.local.set({ teedl_tooltips_enabled: true });
+                // Send message to content script to enable tooltips
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleTooltips', enabled: true });
+                });
+            }
+        });
+    }
+});
+
 // Init
 	var loaded = await loadSteps();
 	state.title = loaded.title;

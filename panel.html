@@ -29,6 +29,35 @@
 			font-size: 18px; 
 			line-height: 22px; 
 		}
+		
+		.app-actions {
+			margin-left: auto;
+			display: flex;
+			align-items: center;
+		}
+		
+		.tooltip-toggle-btn {
+			background: none;
+			border: none;
+			color: white;
+			cursor: pointer;
+			padding: 4px;
+			border-radius: 4px;
+			transition: background-color 0.2s ease;
+		}
+		
+		.tooltip-toggle-btn:hover {
+			background: rgba(255, 255, 255, 0.1);
+		}
+		
+		.tooltip-toggle-btn.active {
+			background: rgba(255, 255, 255, 0.2);
+		}
+		
+		.tooltip-icon {
+			font-size: 16px;
+			display: block;
+		}
 		.action-btn { 
 			width: 28px; 
 			height: 28px; 
@@ -674,6 +703,11 @@
 		<!-- App Bar -->
 		<div class="app-bar">
 			<div class="app-title">Teedl</div>
+			<div class="app-actions">
+				<button class="tooltip-toggle-btn" id="tooltipToggleBtn" title="Toggle Hover Tooltips">
+					<span class="tooltip-icon">💡</span>
+				</button>
+			</div>
 		</div>
 		
 		<!-- Tab Navigation -->
