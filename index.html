@@ -161,30 +161,23 @@
         <h1>Teedl</h1>
         <p class="subtitle">Interactive guides for Google Workspace</p>
         
-        <button class="activate-btn" id="activateBtn" onclick="createBookmarklet()">
-            Create Teedl Bookmarklet
+        <button class="activate-btn" id="activateBtn" onclick="activateTeedl()">
+            Activate Teedl on This Page
         </button>
-        
-        <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 8px;">
-            <strong>📌 Bookmarklet Method:</strong> Drag the button below to your bookmarks bar, then click it while on Google Workspace!
-            <br><br>
-            <a href="javascript:(function(){if(document.getElementById('teedl-panel'))return;var script=document.createElement('script');script.src='https://your-vercel-url.vercel.app/teedl-inject.js';document.head.appendChild(script);})();" style="display: inline-block; padding: 10px 20px; background: #4285f4; color: white; text-decoration: none; border-radius: 6px; margin-top: 10px;">📌 Teedl</a>
-        </div>
         
         <div id="status" class="status" style="display: none;"></div>
         
         <div class="instructions">
             <h2>How to Use Teedl:</h2>
             <ol>
-                <li><strong>Create Bookmarklet:</strong> Click "Create Teedl Bookmarklet" above to copy the code</li>
-                <li><strong>Add to Bookmarks:</strong> Create a new bookmark and paste the code as the URL</li>
-                <li><strong>Go to Google Workspace:</strong> Open docs.google.com, slides.google.com, or sheets.google.com</li>
-                <li><strong>Click Bookmarklet:</strong> Click your Teedl bookmark while on Google Workspace</li>
-                <li><strong>Teedl appears:</strong> Panel will show up on the right side!</li>
+                <li><strong>Click "Activate Teedl":</strong> This will open Google Docs with Teedl ready</li>
+                <li><strong>Teedl appears:</strong> Panel will show up on the right side of Google Docs</li>
+                <li><strong>Follow guides:</strong> Use the interactive tutorials to learn Google Workspace</li>
+                <li><strong>Navigate freely:</strong> Teedl stays active as you work in Google Docs</li>
             </ol>
             
             <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin-top: 20px;">
-                <strong>💡 Pro Tip:</strong> The bookmarklet works on any Google Workspace page - Docs, Slides, Sheets, etc.!
+                <strong>💡 Pro Tip:</strong> You can also manually go to Google Docs and add "?teedl=your-vercel-url" to the URL!
             </div>
         </div>
         
@@ -215,21 +208,14 @@
             status.style.display = 'block';
         }
         
-        function createBookmarklet() {
+        function activateTeedl() {
+            // Simply redirect to Google Docs with Teedl injected
             const currentUrl = window.location.origin;
-            const bookmarkletCode = `javascript:(function(){if(document.getElementById('teedl-panel'))return;var script=document.createElement('script');script.src='${currentUrl}/teedl-inject.js';document.head.appendChild(script);})();`;
-            
-            // Copy to clipboard
-            navigator.clipboard.writeText(bookmarkletCode).then(() => {
-                showStatus('✅ Bookmarklet code copied to clipboard! Paste it as a bookmark URL.', 'success');
-            }).catch(() => {
-                showStatus('📋 Copy this code and paste it as a bookmark URL:', 'info');
-                prompt('Bookmarklet Code:', bookmarkletCode);
-            });
+            window.location.href = `https://docs.google.com/document/create?teedl=${encodeURIComponent(currentUrl)}`;
         }
         
         // Show instructions
-        showStatus('📌 Create a bookmarklet to use Teedl on Google Workspace!', 'info');
+        showStatus('🚀 Click "Activate Teedl" to open Google Docs with Teedl ready!', 'info');
     </script>
 </body>
 </html>

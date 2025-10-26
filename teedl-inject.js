@@ -6,6 +6,14 @@
 
   // Get the current domain for hosting
   var HOST = window.location.origin;
+  
+  // Check if Teedl should be activated via URL parameter
+  var urlParams = new URLSearchParams(window.location.search);
+  var teedlUrl = urlParams.get('teedl');
+  
+  if (teedlUrl) {
+    HOST = teedlUrl;
+  }
 
   // Detect current Google Workspace app
   var site = window.location.pathname.includes('/document') ? 'docs' :
