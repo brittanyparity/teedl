@@ -1099,23 +1099,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Settings button functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const settingsBtn = document.getElementById('settingsBtn');
-    if (settingsBtn) {
-        settingsBtn.addEventListener('click', function() {
-            openSettings();
-        });
-    }
-});
-
-function openSettings() {
-    // Open settings page in new tab
-    chrome.tabs.create({
-        url: chrome.runtime.getURL('settings.html')
-    });
-}
-
 // Init
 	var loaded = await loadSteps();
 	state.title = loaded.title;
