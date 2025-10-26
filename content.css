@@ -1,0 +1,9 @@
+/* Content styles for Teedl extension */
+#teedl-panel {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Ensure panel appears above Google Workspace UI */
+#teedl-panel {
+    z-index: 2147483647 !important;
+}

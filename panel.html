@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Teedl Panel</title>
+	<link rel="stylesheet" href="panel.css" />
+	<style>
+		html, body { height: 100%; margin: 0; padding: 0; }
+		body { font: 14px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: #efefef; }
+		#container { display: flex; flex-direction: column; height: 100vh; }
+		
+		/* App Bar */
+		.app-bar { 
+			background: #5C7CFA; 
+			height: 40px; 
+			display: flex; 
+			align-items: center; 
+			justify-content: flex-start; 
+			padding: 6px 12px; 
+			position: sticky; 
+			top: 0; 
+			z-index: 20; 
+		}
+		.app-title { 
+			color: white; 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: bold; 
+			font-size: 18px; 
+			line-height: 22px; 
+		}
+		.app-actions { 
+			display: flex; 
+			gap: 25px; 
+			padding-right: 0px; 
+		}
+		.action-btn { 
+			width: 28px; 
+			height: 28px; 
+			border-radius: 14px; 
+			background: transparent; 
+			border: none; 
+			cursor: pointer; 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+			transition: all 0.2s ease; 
+			padding: 0; 
+		}
+		.action-btn svg { 
+			width: 28px; 
+			height: 28px; 
+		}
+		.action-btn:hover { 
+			background: transparent; 
+		}
+		.action-btn.active { 
+			background: transparent; 
+		}
+		
+		/* Tab Navigation */
+		.tab-nav { 
+			background: #F0F0F0; 
+			padding: 8px 16px; 
+			position: sticky; 
+			top: 60px; 
+			z-index: 15; 
+		}
+		.tab-container { 
+			display: flex; 
+			background: #e0e0e0; 
+			border-radius: 25px; 
+			overflow: hidden; 
+			max-width: 300px; 
+			margin: 0 auto; 
+			position: relative; 
+			padding: 6px; 
+		}
+		.tab-slider { 
+			position: absolute; 
+			top: 6px; 
+			left: 6px; 
+			height: 32px; 
+			background: #5C7CFA; 
+			border-radius: 22px; 
+			transition: all 0.3s ease; 
+			z-index: 1; 
+			width: calc(33.333% - 8px); 
+		}
+		
+		/* Specific margin adjustments for each tab position */
+		.tab-slider.guides { 
+			margin: 0 6px; 
+		}
+		/* .tab-slider.icons { 
+			margin: 0 0px; 
+		}
+		.tab-slider.keywords { 
+			margin: 0 0px 0 0px; 
+		} */
+		.tab { 
+			flex: 1; 
+			height: 32px; 
+			background: transparent; 
+			border: none; 
+			cursor: pointer; 
+			font-family: 'Poppins', sans-serif; 
+			font-size: 12px; 
+			color: #666; 
+			transition: all 0.3s ease; 
+			position: relative; 
+			z-index: 2; 
+		}
+		.tab.active { 
+			color: white; 
+		}
+		.tab:not(.active):hover { 
+			color: #333; 
+		}
+		.tab.active:hover { 
+			background: transparent; 
+		}
+		
+		/* Content Area */
+		#content { 
+			flex: 1; 
+			overflow: auto; 
+			background: white; 
+			margin: 18px 18px 18px 18px; 
+			border: 1px solid #bfbfbf; 
+			border-radius: 5px; 
+			position: relative; 
+		}
+		
+		/* Disable scrolling on main content when guide step is active */
+		#content.guide-step-active {
+			overflow: hidden;
+		}
+		
+		/* Custom Scrollbar for main content */
+		#content::-webkit-scrollbar {
+			width: 4px;
+		}
+		#content::-webkit-scrollbar-track {
+			background: transparent;
+		}
+		#content::-webkit-scrollbar-thumb {
+			background: #c1c1c1;
+			border-radius: 2px;
+		}
+		#content::-webkit-scrollbar-thumb:hover {
+			background: #a8a8a8;
+		}
+		/* Remove scrollbar arrows for main content */
+		#content::-webkit-scrollbar-button {
+			display: none;
+		}
+		
+		/* Enable scrolling for main tab content */
+		#guides-content, #icons-content, #keywords-content {
+			overflow: auto;
+		}
+		
+		/* Custom Scrollbar for tab content */
+		#guides-content::-webkit-scrollbar,
+		#icons-content::-webkit-scrollbar,
+		#keywords-content::-webkit-scrollbar {
+			width: 4px;
+		}
+		#guides-content::-webkit-scrollbar-track,
+		#icons-content::-webkit-scrollbar-track,
+		#keywords-content::-webkit-scrollbar-track {
+			background: transparent;
+		}
+		#guides-content::-webkit-scrollbar-thumb,
+		#icons-content::-webkit-scrollbar-thumb,
+		#keywords-content::-webkit-scrollbar-thumb {
+			background: #c1c1c1;
+			border-radius: 2px;
+		}
+		#guides-content::-webkit-scrollbar-thumb:hover,
+		#icons-content::-webkit-scrollbar-thumb:hover,
+		#keywords-content::-webkit-scrollbar-thumb:hover {
+			background: #a8a8a8;
+		}
+		/* Remove scrollbar arrows */
+		#guides-content::-webkit-scrollbar-button,
+		#icons-content::-webkit-scrollbar-button,
+		#keywords-content::-webkit-scrollbar-button {
+			display: none;
+		}
+		
+		/* Guides Container */
+		.guides-container { 
+			padding: 15px; 
+			display: flex; 
+			flex-direction: column; 
+			gap: 20px; 
+		}
+		
+		/* Guide Card */
+		.guide-card { 
+			background: #f5f6f8; 
+			border: 1px solid #cac4d0; 
+			border-radius: 12px; 
+			padding: 18px; 
+			position: relative; 
+		}
+		
+		.guide-title { 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: 700; 
+			font-size: 12px; 
+			color: #000; 
+			margin: 0 0 15px 0; 
+			line-height: 20px; 
+		}
+		
+		/* Media Container */
+		.media-container { 
+			background: #efefef; 
+			border: 1px solid #cac4d0; 
+			height: 178px; 
+			border-radius: 8px; 
+			margin: 15px 0; 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+			position: relative; 
+		}
+		
+		.media-placeholder { 
+			width: 100%; 
+			height: 100%; 
+			background: #d9d9d9; 
+			border-radius: 8px; 
+		}
+		
+		/* Steps Content */
+		.steps-content { 
+			margin: 15px 0; 
+		}
+		
+		.step-item { 
+		
+			font-size: 10px; 
+			color: #565656;
+		}
+		
+		.more-steps { 
+		
+			font-size: 10px; 
+			color: #565656; 
+			line-height: 13px; 
+			
+		}
+		
+		/* Start Guide Button */
+		.start-guide-btn { 
+			background: #5C7CFA; 
+			border: none; 
+			border-radius: 8px; 
+			height: 40px; 
+			width: 100%; 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+			gap: 8px; 
+			margin-top: 15px; 
+			cursor: pointer; 
+			transition: all 0.2s ease; 
+			
+		}
+		
+		.start-guide-btn:hover { 
+			background: #4a6cf7; 
+		}
+		
+		.start-guide-text { 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: 700; 
+			font-size: 12px; 
+			color: white; 
+			line-height: 20px; 
+		}
+		
+		.arrow-icon {
+			font-size: 16px;
+			color: white;
+			font-weight: bold;
+		}
+		
+		/* Guide Step Content */
+		#guide-step-content {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+		}
+		
+		.step-container { 
+			height: 100%; 
+			display: flex; 
+			flex-direction: column; 
+			position: relative; 
+			overflow: hidden;
+		}
+		
+		/* Scrollable content area between menu bar and progress bar */
+		.step-scrollable-content {
+			flex: 1;
+			overflow-y: auto;
+			padding-bottom: 80px;
+		}
+		
+		/* Custom scrollbar for step content */
+		.step-scrollable-content::-webkit-scrollbar {
+			width: 4px;
+		}
+		.step-scrollable-content::-webkit-scrollbar-track {
+			background: transparent;
+		}
+		.step-scrollable-content::-webkit-scrollbar-thumb {
+			background: #c1c1c1;
+			border-radius: 2px;
+		}
+		.step-scrollable-content::-webkit-scrollbar-thumb:hover {
+			background: #a8a8a8;
+		}
+		/* Remove scrollbar arrows for step content */
+		.step-scrollable-content::-webkit-scrollbar-button {
+			display: none;
+		}
+		
+		/* Content Menu Bar */
+		.content-menu-bar { 
+			background: white; 
+			border-bottom: 1px solid #bfbfbf; 
+			height: 30px; 
+			display: flex; 
+			align-items: center; 
+			justify-content: space-between; 
+			/* padding: 0 19px;  */
+			position: sticky; 
+			top: 0; 
+			z-index: 10; 
+		}
+		
+		.back-button { 
+			display: flex; 
+			align-items: center; 
+			gap: 8px; 
+			background: none; 
+			border: none; 
+			cursor: pointer; 
+			font-family: 'Roboto', sans-serif; 
+			font-weight: 500; 
+			font-size: 12px; 
+			color: #444242; 
+		}
+		
+		.back-icon {
+			font-size: 16px;
+			color: #444242;
+			font-weight: bold;
+		}
+		
+		
+		/* Step Header */
+		.step-header { 
+			padding: 24px; 
+		}
+		
+		.step-number { 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: 500; 
+			font-size: 12px; 
+			color: #000; 
+			margin: 0 0 8px 0; 
+		}
+		
+		.step-title { 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: 600; 
+			font-size: 24px; 
+			color: #000; 
+			line-height: 1.2; 
+			/* margin: 0 0 10px 0;  */
+		}
+		
+		/* Step Media */
+		.step-media-container { 
+			background: #efefef; 
+			border: 1px solid #cac4d0; 
+			height: 178px; 
+			border-radius: 12px; 
+			margin: 0 24px 16px 24px; 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+		}
+		
+		.step-media-placeholder { 
+			width: 100%; 
+			height: 100%; 
+			background: #d9d9d9; 
+			border-radius: 12px; 
+		}
+		
+		/* Step Description */
+		.step-description { 
+			padding: 0 24px; 
+			flex: 1; 
+		}
+		
+		.step-description p { 
+			font-size: 13px; 
+			color: #000; 
+			line-height: 16px; 
+			margin: 0 0 16px 0; 
+		}
+		
+		/* Progress Bar */
+		.progress-section { 
+			border: 1px solid #bfbfbf; 
+			position: fixed; 
+			bottom: 60px; 
+			left: 18px; 
+			right: 18px; 
+			background: #374151; 
+			z-index: 15; 
+		}
+		
+		.progress-header { 
+			display: flex; 
+			justify-content: space-between; 
+			align-items: center;  
+			padding: 5px 5px;
+		}
+		
+		.step-progress-text { 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: 500; 
+			font-size: 12px; 
+			color: #ffffff; 
+		}
+		
+		.progress-percentage { 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: 500; 
+			font-size: 12px; 
+			color: #ffffff; 
+		}
+		
+		.progress-bar-container { 
+			background: #d9d9d9; 
+			height: 12px; 
+			overflow: hidden; 
+		}
+		
+		.progress-bar-fill { 
+			background: #10b981; 
+			height: 100%; 
+			transition: width 0.3s ease; 
+		}
+		
+		/* Navigation Buttons - Only for Guide Content Page */
+		.navigation-buttons { 
+			display: flex; 
+			gap: 12px; 
+			padding: 16px 24px; 
+			background: #efefef; 
+			position: fixed; 
+			bottom: 0; 
+			left: 0; 
+			right: 0; 
+			z-index: 20; 
+		}
+		
+		/* Hide navigation buttons on main tab pages */
+		#guides-content .navigation-buttons,
+		#icons-content .navigation-buttons,
+		#keywords-content .navigation-buttons {
+			display: none;
+		}
+		
+		.nav-button { 
+			height: 37px; 
+			border-radius: 7px; 
+			border: 1px solid #bfbfbf; 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+			gap: 8px; 
+			cursor: pointer; 
+			transition: all 0.2s ease; 
+			flex: 1; 
+		}
+		
+		.nav-button.previous { 
+			background: white; 
+			color: #000; 
+		}
+		
+		.nav-button.next { 
+			background: #5C7CFA; 
+			color: white; 
+		}
+		
+		.nav-button.complete { 
+			background: #10b981; 
+			color: white; 
+		}
+		
+		.nav-button.complete:hover { 
+			background: #059669; 
+		}
+		
+		.nav-button:hover { 
+			opacity: 0.8; 
+		}
+		
+		.nav-button-text { 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: 500; 
+			font-size: 11px; 
+		}
+		
+		.nav-icon { 
+			font-size: 14px;
+			font-weight: bold;
+			color: currentColor; 
+		}
+		
+		/* Icons Tab Content */
+		.icons-container { 
+			padding: 15px; 
+		}
+		
+		/* Keywords Tab Content */
+		.keywords-container { 
+			padding: 15px; 
+			display: flex; 
+			flex-direction: column; 
+			gap: 15px; 
+		}
+		
+		/* Keyword Card */
+		.keyword-card { 
+			background: #f5f6f8; 
+			border: 1px solid #cac4d0; 
+			border-radius: 12px; 
+			height: 60px; 
+			padding: 17px; 
+			display: flex; 
+			flex-direction: column; 
+			justify-content: center; 
+			cursor: pointer; 
+			transition: all 0.2s ease; 
+		}
+		
+		.keyword-card:hover { 
+			background: #e8e9eb; 
+			transform: translateY(-1px); 
+		}
+		
+		.keyword-title { 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: 700; 
+			font-size: 12px; 
+			color: #000; 
+			line-height: 16px; 
+			margin: 0 0 4px 0; 
+		}
+		
+		.keyword-description { 
+			font-size: 11px; 
+			color: #000; 
+			line-height: 14px; 
+			margin: 0; 
+		}
+		.icon-card { 
+			display: flex; 
+			align-items: center; 
+			background: white; 
+			border: 1px solid #cac4d0; 
+			border-radius: 12px; 
+			margin-bottom: 16px; 
+			height: 70px; 
+			cursor: pointer; 
+			transition: all 0.2s; 
+		}
+		.icon-card:hover { 
+			box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+		}
+		.icon-avatar { 
+			width: 40px; 
+			height: 40px; 
+			margin: 10px; 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+			background: #f5f5f5; 
+			border-radius: 8px; 
+		}
+		.icon-content { 
+			flex: 1; 
+		}
+		.icon-title { 
+			font-family: 'Poppins', sans-serif; 
+			font-weight: 600; 
+			font-size: 12px; 
+			line-height: 12px; 
+			color: #1d1b20; 
+			margin: 0 0 4px 0; 
+		}
+		.icon-description { 
+			/* font-family: 'Inter', sans-serif;  */
+			font-weight: 400; 
+			font-size: 10px; 
+			line-height: 10px; 
+			color: #1d1b20; 
+			margin: 0; 
+		}
+		.icon-media { 
+			width: 25%; 
+			height: 100%; 
+			background: #efefef; 
+			border-left: 1px solid #cac4d0; 
+			border-radius: 0 12px 12px 0; 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+		}
+		
+		/* Keywords Tab Content */
+		.keywords-container { 
+			padding: 20px; 
+		}
+		
+		/* Footer */
+		footer { 
+			padding: 16px; 
+			background: #efefef; 
+			display: flex; 
+			justify-content: center; 
+			align-items: center; 
+		}
+		.footer-left { 
+			display: flex; 
+			gap: 8px; 
+		}
+		.footer-right { 
+			display: flex; 
+			gap: 8px; 
+		}
+		button { 
+			padding: 8px 16px; 
+			border: 1px solid #ddd; 
+			background: #fff; 
+			border-radius: 6px; 
+			cursor: pointer; 
+			font-size: 14px; 
+		}
+		
+		.register-btn { 
+			background: #10b981; 
+			color: white; 
+			border: none; 
+			border-radius: 100px; 
+			padding: 10px 16px; 
+		}
+		.register-btn:hover { 
+			background: #059669; 
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<!-- App Bar -->
+		<div class="app-bar">
+			<div class="app-title">Teedl</div>
+		</div>
+		
+		<!-- Tab Navigation -->
+		<div class="tab-nav">
+			<div class="tab-container">
+				<div class="tab-slider" id="tab-slider"></div>
+				<button class="tab active" id="guides-tab">Guides</button>
+				<button class="tab" id="icons-tab">Icons</button>
+				<button class="tab" id="keywords-tab">Keywords</button>
+			</div>
+		</div>
+		
+		<!-- Content Area -->
+		<div id="content">
+			<!-- Guides Tab Content -->
+			<div id="guides-content" class="tab-content">
+				<div class="guides-container">
+					<!-- Guide cards will be dynamically generated -->
+				</div>
+			</div>
+			
+			<!-- Icons Tab Content -->
+			<div id="icons-content" class="tab-content" style="display: none;">
+				<div class="icons-container">
+					<!-- Icon cards will be dynamically generated -->
+				</div>
+			</div>
+			
+			<!-- Keywords Tab Content -->
+			<div id="keywords-content" class="tab-content" style="display: none;">
+				<div class="keywords-container">
+					<!-- Keyword cards will be dynamically generated -->
+		</div>
+			</div>
+			
+			<!-- Guide Step Content (Hidden by default) -->
+			<div id="guide-step-content" class="tab-content" style="display: none;">
+				<div class="step-container">
+					<!-- Step content will be dynamically generated -->
+			</div>
+		</div>
+		</div>
+		
+		<!-- Footer -->
+		<footer>
+			<!-- Footer content removed as per Figma design -->
+		</footer>
+	</div>
+	<script src="panel.js"></script>
+</body>
+</html> 

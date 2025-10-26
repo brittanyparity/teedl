@@ -1,0 +1,61 @@
+{
+  "manifest_version": 3,
+  "name": "Teedl - Google Workspace Guide",
+  "version": "1.0.0",
+  "description": "Interactive guides and tutorials for Google Workspace applications",
+  
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  
+  "host_permissions": [
+    "https://docs.google.com/*",
+    "https://slides.google.com/*",
+    "https://sheets.google.com/*",
+    "https://drive.google.com/*"
+  ],
+  
+  "content_scripts": [
+    {
+      "matches": [
+        "https://docs.google.com/*",
+        "https://slides.google.com/*",
+        "https://sheets.google.com/*",
+        "https://drive.google.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "panel.html",
+        "src/panel.js",
+        "src/panel.html",
+        "assets/*"
+      ],
+      "matches": [
+        "https://docs.google.com/*",
+        "https://slides.google.com/*",
+        "https://sheets.google.com/*",
+        "https://drive.google.com/*"
+      ]
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Teedl - Google Workspace Guide"
+  },
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

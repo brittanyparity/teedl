@@ -1,115 +1,103 @@
-# Teedl - Google Workspace Guide
+# Teedl - Google Workspace Guide Extension
 
-Interactive guides for Google Docs, Slides, and Sheets.
+A browser extension that provides interactive guides and tutorials for Google Workspace applications.
 
-## 🚀 Quick Deploy to Vercel
+## 🚀 Features
 
-### Option 1: Deploy from GitHub (Recommended)
+- **Interactive Guides**: Step-by-step tutorials for Google Docs, Slides, and Sheets
+- **Icon Reference**: Visual guide to Google Workspace icons and tools
+- **Keyword Search**: Quick access to Google Workspace terminology
+- **Auto-Detection**: Automatically activates on Google Workspace pages
+- **Cross-Browser**: Works on Chrome, Firefox, Edge, and Safari
 
-1. **Push to GitHub:**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/yourusername/teedl-webapp.git
-   git push -u origin main
-   ```
+## 📦 Installation
 
-2. **Deploy to Vercel:**
-   - Go to [vercel.com](https://vercel.com)
-   - Sign in with GitHub
-   - Click "New Project"
-   - Import your GitHub repository
-   - Click "Deploy"
+### For Development/Testing:
 
-### Option 2: Deploy from Local Files
+1. **Download the extension files**
+2. **Open your browser's extension page:**
+   - Chrome: `chrome://extensions/`
+   - Firefox: `about:addons`
+   - Edge: `edge://extensions/`
+3. **Enable Developer Mode**
+4. **Click "Load unpacked"**
+5. **Select the extension folder**
 
-1. **Install Vercel CLI:**
-   ```bash
-   npm i -g vercel
-   ```
+### For Distribution:
 
-2. **Deploy:**
-   ```bash
-   vercel
-   ```
+1. **Package the extension** (zip the files)
+2. **Upload to browser stores:**
+   - Chrome Web Store
+   - Firefox Add-ons
+   - Microsoft Edge Add-ons
 
-3. **Follow the prompts:**
-   - Project name: `teedl-webapp`
-   - Framework: Other
-   - Build command: (leave empty)
-   - Output directory: (leave empty)
+## 🎯 Usage
 
-## 📁 Project Structure
+1. **Navigate to Google Workspace** (Docs, Slides, Sheets)
+2. **Click the Teedl extension icon** in your browser toolbar
+3. **Click "Open Teedl Panel"**
+4. **Follow the interactive guides**
+
+## 📁 File Structure
 
 ```
-teedl-webapp/
-├── index.html              # Main landing page
-├── teedl-inject.js         # Injection script
-├── vercel.json             # Vercel configuration
-├── src/
-│   ├── panel.html          # Teedl panel interface
-│   └── panel.js            # Panel functionality
-└── public/
-    └── (any additional assets)
+teedl-extension/
+├── manifest.json          # Extension configuration
+├── popup.html            # Extension popup UI
+├── popup.js              # Popup functionality
+├── content.js            # Content script injection
+├── content.css           # Content script styles
+├── panel.html            # Main panel UI
+├── panel.js              # Panel functionality
+├── icons/                # Extension icons
+│   ├── icon16.png
+│   ├── icon32.png
+│   ├── icon48.png
+│   └── icon128.png
+└── icon-generator.html   # Tool to create icons
 ```
 
-## 🎯 How It Works
+## 🔧 Development
 
-1. **User visits your Vercel URL** (e.g., `teedl-webapp.vercel.app`)
-2. **User goes to Google Workspace** (Docs, Slides, or Sheets)
-3. **User clicks "Activate Teedl"** on your website
-4. **Teedl panel appears** on the right side of Google Workspace
-5. **User follows interactive guides**
+### Creating Icons:
+1. Open `icon-generator.html` in your browser
+2. Right-click each generated icon
+3. Save as `icon16.png`, `icon32.png`, etc. in the `icons/` folder
 
-## 🔧 Customization
+### Testing:
+1. Load the extension in developer mode
+2. Navigate to `docs.google.com`
+3. Click the extension icon
+4. Test all functionality
 
-### Change the Domain
-Update `HOST` in `teedl-inject.js`:
-```javascript
-var HOST = 'https://your-custom-domain.com';
-```
+## 🌐 Browser Compatibility
 
-### Add Analytics
-Uncomment the analytics section in `teedl-inject.js`:
-```javascript
-fetch(HOST + '/api/events', { 
-  method: 'POST', 
-  headers: { 'Content-Type': 'application/json' }, 
-  body: JSON.stringify(payload), 
-  keepalive: true 
-}).catch(function(){});
-```
+- ✅ **Chrome** (Manifest V3)
+- ✅ **Firefox** (WebExtensions API)
+- ✅ **Edge** (Chromium-based)
+- ✅ **Safari** (with modifications)
 
-## 🧪 Testing
+## 📝 Permissions
 
-1. **Deploy to Vercel**
-2. **Open Google Docs** in a new tab
-3. **Visit your Vercel URL**
-4. **Click "Activate Teedl"**
-5. **Verify panel appears** on the right side
+- `activeTab`: Access current tab for injection
+- `storage`: Save user preferences
+- `host_permissions`: Access Google Workspace domains
 
-## 📱 Browser Support
+## 🚀 Deployment Steps
 
-- ✅ Chrome
-- ✅ Firefox  
-- ✅ Safari
-- ✅ Edge
-- ✅ Mobile browsers
+1. **Create icons** using `icon-generator.html`
+2. **Test thoroughly** on all target browsers
+3. **Package extension** (zip all files)
+4. **Submit to stores:**
+   - Chrome Web Store
+   - Firefox Add-ons
+   - Microsoft Edge Add-ons
 
-## 🚀 Next Steps
+## 🎉 Benefits of Extension Approach
 
-1. **Deploy to Vercel** using the instructions above
-2. **Test on different browsers** and Google Workspace apps
-3. **Share the Vercel URL** with your testers
-4. **Collect feedback** and iterate
-5. **Consider custom domain** for production
-
-## 📞 Support
-
-If you encounter any issues:
-1. Check the browser console for errors
-2. Verify all files are deployed correctly
-3. Test on different Google Workspace pages
-4. Check Vercel deployment logs
+- ✅ **Reliable**: No CSP or iframe restrictions
+- ✅ **Cross-browser**: Works everywhere
+- ✅ **User-friendly**: One-click installation
+- ✅ **Persistent**: Stays active across sessions
+- ✅ **Secure**: Proper permission model
+- ✅ **Distributable**: Easy to share with testers
