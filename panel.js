@@ -1,6 +1,20 @@
 (async function(){
 	function getSite(){
-try{ const u = new URL(location.href); return u.searchParams.get('site') || 'generic'; }catch(_){ return 'generic'; }
+		try{ 
+			const url = new URL(location.href);
+			const pathname = url.pathname;
+			
+			// Detect Google Workspace site from iframe context
+			if (pathname.includes('/document')) return 'docs';
+			if (pathname.includes('/presentation')) return 'slides';
+			if (pathname.includes('/spreadsheets')) return 'sheets';
+			if (pathname.includes('/drive')) return 'drive';
+			
+			// Fallback to URL parameter or generic
+			return url.searchParams.get('site') || 'docs';
+		} catch(_){ 
+			return 'docs'; 
+		}
 	}
 	function uuid(){
 		return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));

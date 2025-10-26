@@ -31,10 +31,17 @@
             return;
         }
         
-        // Create iframe
+        // Detect current Google Workspace app
+        let site = 'docs'; // default
+        if (window.location.pathname.includes('/document')) site = 'docs';
+        else if (window.location.pathname.includes('/presentation')) site = 'slides';
+        else if (window.location.pathname.includes('/spreadsheets')) site = 'sheets';
+        else if (window.location.pathname.includes('/drive')) site = 'drive';
+        
+        // Create iframe with site parameter
         panel = document.createElement('iframe');
         panel.id = 'teedl-panel';
-        panel.src = chrome.runtime.getURL('panel.html');
+        panel.src = chrome.runtime.getURL(`panel.html?site=${site}`);
         panel.style.cssText = `
             position: fixed;
             top: 0px;
@@ -65,15 +72,5 @@
         }
     }
     
-    // Auto-open panel on Google Workspace pages
-    if (window.location.host.includes('google.com') && 
-        (window.location.pathname.includes('/document') || 
-         window.location.pathname.includes('/presentation') || 
-         window.location.pathname.includes('/spreadsheets'))) {
-        
-        // Small delay to ensure page is loaded
-        setTimeout(() => {
-            openPanel();
-        }, 1000);
-    }
+    // Don't auto-open panel - let user control it
 })();
