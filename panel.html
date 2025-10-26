@@ -29,10 +29,30 @@
 			font-size: 18px; 
 			line-height: 22px; 
 		}
-		.app-actions { 
-			display: flex; 
-			gap: 25px; 
-			padding-right: 0px; 
+		
+		.app-actions {
+			margin-left: auto;
+			display: flex;
+			align-items: center;
+		}
+		
+		.settings-btn {
+			background: none;
+			border: none;
+			color: white;
+			cursor: pointer;
+			padding: 4px;
+			border-radius: 4px;
+			transition: background-color 0.2s ease;
+		}
+		
+		.settings-btn:hover {
+			background: rgba(255, 255, 255, 0.1);
+		}
+		
+		.settings-icon {
+			font-size: 16px;
+			display: block;
 		}
 		.action-btn { 
 			width: 28px; 
@@ -679,6 +699,11 @@
 		<!-- App Bar -->
 		<div class="app-bar">
 			<div class="app-title">Teedl</div>
+			<div class="app-actions">
+				<button class="settings-btn" id="settingsBtn" title="Settings">
+					<span class="settings-icon">⚙️</span>
+				</button>
+			</div>
 		</div>
 		
 		<!-- Tab Navigation -->

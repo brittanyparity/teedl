@@ -7,11 +7,21 @@
     let panel = null;
     let isPanelOpen = false;
     
-    // Listen for messages from popup
+    // Listen for messages from extension icon click
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         console.log('Teedl received message:', request);
         if (request.action === 'togglePanel') {
             togglePanel();
+            sendResponse({success: true});
+        }
+    });
+    
+    // Handle extension icon click directly
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.action === 'openPanel') {
+            if (!isPanelOpen) {
+                openPanel();
+            }
             sendResponse({success: true});
         }
     });

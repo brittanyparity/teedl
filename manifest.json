@@ -6,8 +6,13 @@
   
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs"
   ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
   
   "host_permissions": [
     "https://docs.google.com/*",
@@ -35,6 +40,8 @@
       "resources": [
         "panel.html",
         "panel.js",
+        "settings.html",
+        "settings.js",
         "assets/*"
       ],
       "matches": [
@@ -47,7 +54,6 @@
   ],
   
   "action": {
-    "default_popup": "popup.html",
     "default_title": "Teedl - Google Workspace Guide"
   },
   
